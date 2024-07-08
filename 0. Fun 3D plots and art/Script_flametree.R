@@ -16,4 +16,4 @@ dat2 <- flametree_grow(seed = 1, time = 6,
 img2 <- flametree_plot(tree = dat,
                        palette = "grDevices::rainbow")  
 
-flametree_save(img2, 'img2.png')
+flametree_save(img2, 'C:\\Users\\JuanCarlosSaraviaDra\\img2.png')
