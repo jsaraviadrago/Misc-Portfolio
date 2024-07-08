@@ -22,4 +22,4 @@ dat2 <- flametree_grow(seed = 1, time = 6,
 img2 <- flametree_plot(data = dat,
                        palette = colors)  
 
-flametree_save(img2, 'C:\\Users\\JuanCarlosSaraviaDra\\img2.png')
+flametree_save(img, 'C:\\Users\\JuanCarlosSaraviaDra\\Dropbox\\img.png')
