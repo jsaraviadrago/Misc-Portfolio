@@ -11,20 +11,18 @@ library(geodata)
 
 peru_dpto <- geodata::gadm("Peru", level = 1, path = ".") #Nivel departamento
 
-#Mapas generales: Convertir con fortify
-fperu_dpto<-fortify(peru_dpto)
+#Mapas generales: Convertir con sf
+#fperu_dpto<-fortify(peru_dpto)
+fperu_dpto <- st_as_sf(peru_dpto)
 
-dpto_geometry <- fperu_dpto %>%
-  st_as_sf(coords = c("long", "lat"), crs = 4326) %>%
-  group_by(id) %>%
-  summarise(geometry = st_combine(geometry)) %>%
-  st_cast("POLYGON") 
 
+ggplot(fperu_dpto) +
+  geom_sf(fill = NA, colour = "black")
 
 ### Mapa del Peru
 rgl.open()
 
-MapaPeru <- ggplot(data = dpto_geometry)+
+MapaPeru <- ggplot(data = fperu_dpto)+
   geom_sf(fill= "#FF0000", color = "#FFFFFF") +
   theme(axis.text.x = element_blank(),
         axis.text.y = element_blank(),
