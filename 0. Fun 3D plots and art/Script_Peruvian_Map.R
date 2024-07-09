@@ -1,14 +1,15 @@
 library(ggplot2)
 library(sp)
-library(raster)
 library(sf)
-library(rgeos)
+#library(rgeos)
 library(dplyr)
 library(rayshader)
 library(av)
 library(rgl)
+library(geodata)
 
-peru_dpto<-getData('GADM',country='PER',level=1) #Nivel departamento
+
+peru_dpto <- geodata::gadm("Peru", level = 1, path = ".") #Nivel departamento
 
 #Mapas generales: Convertir con fortify
 fperu_dpto<-fortify(peru_dpto)
