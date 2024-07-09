@@ -15,13 +15,11 @@ peru_dpto <- geodata::gadm("Peru", level = 1, path = ".") #Nivel departamento
 #fperu_dpto<-fortify(peru_dpto)
 fperu_dpto <- st_as_sf(peru_dpto)
 
-
+# mapa Peru blanco y negro
 ggplot(fperu_dpto) +
   geom_sf(fill = NA, colour = "black")
 
-### Mapa del Peru
-rgl.open()
-
+# mapa del peru con colores
 MapaPeru <- ggplot(data = fperu_dpto)+
   geom_sf(fill= "#FF0000", color = "#FFFFFF") +
   theme(axis.text.x = element_blank(),
