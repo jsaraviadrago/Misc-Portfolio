@@ -1,7 +1,6 @@
 library(ggplot2)
 library(sp)
 library(sf)
-#library(rgeos)
 library(dplyr)
 library(rayshader)
 library(av)
