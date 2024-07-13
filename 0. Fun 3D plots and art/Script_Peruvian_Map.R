@@ -46,7 +46,7 @@ data.frame(fperu_dpto)
 
 ggplot(fperu_dpto) +
   geom_sf(aes(fill = Cantidad_equipos)) + 
-  scale_fill_viridis_c() +
+  scale_fill_viridis_c(option = "magma", direction = 1) +
   theme(panel.background = element_blank(),
         axis.text.x = element_blank(),
         axis.text.y = element_blank(),
