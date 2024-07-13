@@ -8,10 +8,10 @@ library(rgl)
 library(geodata)
 
 
+# Levantar el mapa
 peru_dpto <- geodata::gadm("Peru", level = 1, path = ".") #Nivel departamento
 
-#Mapas generales: Convertir con sf
-#fperu_dpto<-fortify(peru_dpto)
+#Mapas generales: Convertir con sf para que sea un data frame y se puede graficar. 
 fperu_dpto <- st_as_sf(peru_dpto)
 
 # mapa Peru blanco y negro
