@@ -6,6 +6,7 @@ library(rayshader)
 library(av)
 library(rgl)
 library(geodata)
+library(viridis)
 
 
 # Levantar el mapa
