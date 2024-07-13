@@ -20,6 +20,12 @@ url <- "https://raw.githubusercontent.com/jsaraviadrago/Misc-Portfolio/main/0.%2
 
 data_equipos <- read.csv(url)
 
+data_equipos_departamento <- data_equipos |> 
+  group_by(region) |> 
+  summarise(Cantidad_equipos = n())
+
+data.frame(data_equipos_departamento)
+
 
 # mapa Peru blanco y negro
 ggplot(fperu_dpto) +
