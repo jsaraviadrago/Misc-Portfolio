@@ -44,7 +44,7 @@ data.frame(fperu_dpto)
 
 # mapa Peru blanco y negro
 
-ggplot(fperu_dpto) +
+mapa_equipos <- ggplot(fperu_dpto) +
   geom_sf(aes(fill = Cantidad_equipos)) + 
   scale_fill_viridis_c(option = "magma", direction = 1) +
   theme(panel.background = element_blank(),
@@ -53,7 +53,12 @@ ggplot(fperu_dpto) +
         axis.line.x = element_blank(),
         axis.line.y = element_blank(),
         panel.grid.major = element_blank(),
-        panel.grid.minor = element_blank())
+        axis.ticks = element_blank(),
+        panel.grid.minor = element_blank(),
+        legend.title = element_blank())+
+  ggtitle("Cantidad de equipos por region")
+
+plot_gg(mapa_equipos, multicore=TRUE,height=5,width=6,scale=500)
 
 
 
