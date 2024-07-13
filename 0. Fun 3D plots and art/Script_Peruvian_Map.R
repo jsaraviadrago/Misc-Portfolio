@@ -39,12 +39,16 @@ data_equipos_departamento <- data_equipos_departamento |>
 fperu_dpto <- left_join(fperu_dpto, data_equipos_departamento,
                         by = c("NAME_1" = "region"))
 
-data.frame(fperu_dpto)
 
+data.frame(fperu_dpto)
 
 # mapa Peru blanco y negro
 ggplot(fperu_dpto) +
-  geom_sf(fill = NA, colour = "black")
+  geom_sf(fill = fperu_dpto$Cantidad_equipos) + 
+  scale_fill_viridis_c(option = "plasma")
+  
+
+
 
 
 
