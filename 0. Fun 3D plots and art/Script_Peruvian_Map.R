@@ -43,14 +43,17 @@ fperu_dpto <- left_join(fperu_dpto, data_equipos_departamento,
 data.frame(fperu_dpto)
 
 # mapa Peru blanco y negro
+
 ggplot(fperu_dpto) +
-  geom_sf(fill = fperu_dpto$Cantidad_equipos) + 
-  scale_fill_viridis_c(option = "plasma")
-  
-
-
-
-
+  geom_sf(aes(fill = Cantidad_equipos)) + 
+  scale_fill_viridis_c() +
+  theme(panel.background = element_blank(),
+        axis.text.x = element_blank(),
+        axis.text.y = element_blank(),
+        axis.line.x = element_blank(),
+        axis.line.y = element_blank(),
+        panel.grid.major = element_blank(),
+        panel.grid.minor = element_blank())
 
 
 
