@@ -24,7 +24,21 @@ data_equipos_departamento <- data_equipos |>
   group_by(region) |> 
   summarise(Cantidad_equipos = n())
 
-data.frame(data_equipos_departamento)
+# Limpiar nombres para que estén igual 
+data_equipos_departamento <- data_equipos_departamento |> 
+  mutate(region = case_when(
+    region == "Áncash" ~ "Ancash",
+    region == "Lima Región" ~ "Lima Province",
+    region == "Lima Metropolitana" ~ "Lima",
+    TRUE ~ region))
+
+
+#Juntar la información de la cantidad de equipos con el data frame
+
+fperu_dpto <- left_join(fperu_dpto, data_equipos_departamento,
+                        by = c("NAME_1" = "region"))
+
+data.frame(fperu_dpto)
 
 
 # mapa Peru blanco y negro
