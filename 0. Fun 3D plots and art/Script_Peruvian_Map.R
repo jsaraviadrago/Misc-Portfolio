@@ -18,7 +18,12 @@ fperu_dpto <- st_as_sf(peru_dpto)
 ggplot(fperu_dpto) +
   geom_sf(fill = NA, colour = "black")
 
-# mapa del peru con colores
+
+
+
+
+
+# mapa del peru con colores plano
 MapaPeru <- ggplot(data = fperu_dpto)+
   geom_sf(fill= "#FF0000", color = "#FFFFFF") +
   theme(axis.text.x = element_blank(),
@@ -30,10 +35,11 @@ MapaPeru <- ggplot(data = fperu_dpto)+
         panel.grid.major = element_blank(),
         panel.grid.minor = element_blank(),
         legend.title = element_blank(), legend.position="none")
-                                        
+
+# Rendering into a moving plot with rayshader                                        
 plot_gg(MapaPeru, width = 4, height = 4, scale = 400,
         multicore = F) 
-render_movie(filename = "mapa.mp4",
+render_movie(filename = "C:\\Users\\JuanCarlosSaraviaDra\\Downloads\\mapa.mp4",
              theta = -45, phi = seq(90,360, by=2),
              zoom = 0.5,fov = 130)
 
