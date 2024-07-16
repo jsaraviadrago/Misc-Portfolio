@@ -46,7 +46,7 @@ data.frame(fperu_dpto)
 
 mapa_equipos <- ggplot(fperu_dpto) +
   geom_sf(aes(fill = Cantidad_equipos)) + 
-  scale_fill_viridis_c(option = "magma", direction = 1) +
+  scale_fill_viridis_c(option = "viridis", direction = 1) +
   theme(panel.background = element_blank(),
         axis.text.x = element_blank(),
         axis.text.y = element_blank(),
@@ -58,10 +58,10 @@ mapa_equipos <- ggplot(fperu_dpto) +
         legend.title = element_blank())+
   ggtitle("Cantidad de equipos por region")
 
-plot_gg(mapa_equipos, multicore=TRUE,height=5,width=6,scale=500)
 
 
-
+# Plot 3D no funciona
+#plot_gg(mapa_equipos, multicore=TRUE,height=5,width=6,scale=500)
 
 # mapa del peru con colores plano
 MapaPeru <- ggplot(data = fperu_dpto)+
@@ -77,9 +77,9 @@ MapaPeru <- ggplot(data = fperu_dpto)+
         legend.title = element_blank(), legend.position="none")
 
 # Rendering into a moving plot with rayshader                                        
-plot_gg(MapaPeru, width = 4, height = 4, scale = 400,
-        multicore = F) 
-render_movie(filename = "C:\\Users\\JuanCarlosSaraviaDra\\Downloads\\mapa.mp4",
-             theta = -45, phi = seq(90,360, by=2),
-             zoom = 0.5,fov = 130)
+# plot_gg(MapaPeru, width = 4, height = 4, scale = 400,
+#         multicore = F) 
+# render_movie(filename = "C:\\Users\\JuanCarlosSaraviaDra\\Downloads\\mapa.mp4",
+#              theta = -45, phi = seq(90,360, by=2),
+#              zoom = 0.5,fov = 130)
 
