@@ -13,5 +13,6 @@ multipoint <-  st_multipoint(matrix(c(0,10,20,30,10,20,40,0,30,0,30,30,60,0),
 # Creating the polygon
 polyg <-  st_cast(multipoint, "POLYGON")
 
-# Plotting the 
+# Plotting the squares
 plot(polyg, col = "Gold")
+
