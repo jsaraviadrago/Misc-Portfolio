@@ -2,12 +2,10 @@ library(sf)
 library(rayshader)
 library(rayrender)
 library(ggplot2)
-# Coordinate seperate in grids for simplicity
-#x <- c(0,1,2,3,1,2,4)
-#y <- c(0,3,0,3,3,6,0)
+library(rgl)
+library(raster)
 
-# Plotting with grids so I can have an idea of measurement
-#plot(x,y)
+
 
 # Creating the triforce
 multipoint <-  st_multipoint(matrix(c(0,10,20,30,10,20,40,0,30,0,30,30,60,0),
@@ -35,10 +33,26 @@ triforce <- ggplot() +
         axis.ticks = element_blank(),
         legend.title = element_blank(), legend.position="none")
 
+# Create an empty raster
+r <- raster(extent(df), ncol = 100, nrow = 100)
 
+# Rasterize the polygon
+r <- rasterize(df, r, field = 1, fun = 'first')
 
-plot_gg(triforce, width = 4, height = 4, scale = 400,
-        multicore = F) 
-render_movie(filename = "C:\\Users\\JuanCarlosSaraviaDra\\Downloads\\mapa.mp4",
-             theta = -45, phi = seq(90,360, by=2),
-             zoom = 0.5,fov = 130)
+# Convert the raster to a matrix
+height_matrix <- as.matrix(r)
+
+# Replace NA values with 0
+height_matrix[is.na(height_matrix)] <- 0
+
+# Ensure the RGL device is opened
+rgl::rgl.open()
+
+# Plot with rayshader
+height_matrix %>%
+  sphere_shade(texture = "imhof1") %>%
+  plot_3d(height_matrix, zscale = 10, windowsize = c(800, 800))
+
+# Render a movie
+render_movie("C:\\Users\\JuanCarlosSaraviaDra\\Downloads\\triforce_movie.mp4", frames = 360, fps = 30, 
+             phi = 45, zoom = 0.75, theta = seq(0, 360, length.out = 360))
