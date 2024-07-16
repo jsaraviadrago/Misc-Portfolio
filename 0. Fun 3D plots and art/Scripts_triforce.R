@@ -5,8 +5,6 @@ library(ggplot2)
 library(rgl)
 library(raster)
 
-
-
 # Creating the triforce
 multipoint <-  st_multipoint(matrix(c(0,10,20,30,10,20,40,0,30,0,30,30,60,0),
                                     ncol = 2))
@@ -32,6 +30,11 @@ triforce <- ggplot() +
         panel.grid.minor = element_blank(),
         axis.ticks = element_blank(),
         legend.title = element_blank(), legend.position="none")
+
+## Creating simple plot
+# Rendering into a moving plot with rayshader                                        
+plot_gg(triforce, width = 4, height = 4, scale = 400,
+        multicore = F) 
 
 # Create an empty raster
 r <- raster(extent(df), ncol = 100, nrow = 100)
