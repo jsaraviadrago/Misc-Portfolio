@@ -32,7 +32,10 @@ triforce <- ggplot() +
         legend.title = element_blank(), legend.position="none")
 
 ## Creating simple plot
-# Rendering into a moving plot with rayshader                                        
+# Rendering into a moving plot with rayshader     
+
+plot_gg(triforce,multicore=TRUE,width=5,height=3,scale=310)    # Plot_gg de rayshader
+render_movie("C:\\Users\\JuanCarlosSaraviaDra\\Downloads\\triforce.mp4",
+             frames = 720, fps=30,zoom=0.6,fov = 30)
 
 
-plot_gg(triforce, height=3, width=3.5, multicore=TRUE, pointcontract = 0.7, soliddepth=-200)
