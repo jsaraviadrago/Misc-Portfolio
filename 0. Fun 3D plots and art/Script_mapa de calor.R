@@ -37,18 +37,20 @@ table(data_agregada$Personas)
 Heat_map <- ggplot(data_agregada, aes(year,hour, fill= Personas)) + 
   geom_tile() +
   theme(panel.background = element_blank(),
-        axis.text.x = element_text(angle = 0))+
+        axis.text.x = element_text(angle = 0),
+        legend.title = element_blank())+
   scale_fill_viridis(discrete=FALSE) +
   scale_x_continuous(breaks = seq(2020,2024, by = 1))+
   scale_y_continuous(breaks = seq(4,22, by = 1)) +
-  labs(x = "", "Hora de día")
+  labs(x = "", y="")+
+  ggtitle("Carreras por hora y año")
 
 
 
 
-  plot_gg(Heat_map, scale = 250) 
-render_movie(filename = "Heat_map.mp4",
-             theta = -45, phi = 30,zoom = 0.5,fov = 130)
+plot_gg(Heat_map,multicore=TRUE,width=5,height=3,scale=310)    # Plot_gg de rayshader
+render_movie("C:\\Users\\JuanCarlosSaraviaDra\\Downloads\\Heat_map.mp4",
+             frames = 720, fps=30,zoom=0.6,fov = 30)
   
   
 
