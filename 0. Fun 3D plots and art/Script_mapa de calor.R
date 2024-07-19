@@ -1,39 +1,37 @@
-wd <- "/Users/home/Downloads/IF - Mapas de calor mensual"
-
-setwd(wd)
-list.files()
-
 library(readxl)
 library(dplyr)
 library(ggplot2)
 library(hrbrthemes)
 library(viridis)
 library(rayshader)
+library(lubridate)
 
-data1 <- read_excel("Mapa de Calor - 17.03.xlsx", sheet = 2)
-names(data1)
-data2 <- read_excel("Mapa de Calor - 17.04.xlsx", sheet = 2)
-names(data2)
-data3 <- read_excel("Mapa de Calor - 17.05.xlsx", sheet = 2)
-names(data3)
-data4 <- read_excel("Mapa de Calor - 17.06.xlsx", sheet = 2)
-names(data4)
-data5 <- read_excel("Mapa de Calor - 17.07.xlsx", sheet = 2)
-names(data5)
-data6 <- read_excel("Mapa de Calor - 17.08.xlsx", sheet = 2)
-names(data6)
-data7 <- read_excel("Mapa de Calor - 17.09.xlsx", sheet = 2)
-names(data7)
-data8 <- read_excel("Mapa de Calor - 17.10.xlsx", sheet = 2)
-names(data8)
+url <- "https://raw.githubusercontent.com/jsaraviadrago/Misc-Portfolio/main/0.%20Fun%203D%20plots%20and%20art/Activities.csv"
 
-data_completa <- bind_rows(data1,data2,data3,data4,data5,data6,data7,data8)
+data <- read.csv(url)
 
-head(data.frame(data_completa))
-table(data_completa$hora)
+data <- data %>% 
+  mutate(
+    date = as.Date(Date),
+    hour = hour(Date),
+    minute = minute(Date),
+    second = second(Date)
+  ) %>% 
+  mutate(
+    format_date = format(date, "%m/%d/%Y"),
+    format_hour = paste(hour, minute, second, sep = ":")
+  )
 
-data_agregada <- group_by(data_completa, dia, hora) %>% 
+
+data_running <- data |> 
+  filter(Activity.Type == "Running")
+
+data_agregada <- group_by(data_running, Number.of.Laps, Avg.HR) %>% 
   summarise(Personas = n())
+
+table(data_agregada$Personas)
+
+
 
 Heat_map <- ggplot(data_agregada, aes(dia,hora, fill= Personas)) + 
   geom_tile() +
