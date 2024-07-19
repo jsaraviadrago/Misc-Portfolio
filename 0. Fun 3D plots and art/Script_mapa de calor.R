@@ -1,4 +1,3 @@
-library(readxl)
 library(dplyr)
 library(ggplot2)
 library(hrbrthemes)
@@ -29,10 +28,6 @@ data_running <- data |>
 
 data_agregada <- group_by(data_running, year, hour) %>% 
   summarise(Personas = n())
-
-table(data_agregada$Personas)
-
-
 
 Heat_map <- ggplot(data_agregada, aes(year,hour, fill= Personas)) + 
   geom_tile() +
