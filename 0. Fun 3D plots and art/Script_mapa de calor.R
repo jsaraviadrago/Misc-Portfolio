@@ -12,6 +12,7 @@ data <- read.csv(url)
 
 data <- data %>% 
   mutate(
+    year = year(Date),
     date = as.Date(Date),
     hour = hour(Date),
     minute = minute(Date),
@@ -26,20 +27,25 @@ data <- data %>%
 data_running <- data |> 
   filter(Activity.Type == "Running")
 
-data_agregada <- group_by(data_running, Number.of.Laps, Avg.HR) %>% 
+data_agregada <- group_by(data_running, year, hour) %>% 
   summarise(Personas = n())
 
 table(data_agregada$Personas)
 
 
 
-Heat_map <- ggplot(data_agregada, aes(dia,hora, fill= Personas)) + 
+Heat_map <- ggplot(data_agregada, aes(year,hour, fill= Personas)) + 
   geom_tile() +
   theme(panel.background = element_blank(),
-        axis.text.x = element_text(angle = 90))+
+        axis.text.x = element_text(angle = 0))+
   scale_fill_viridis(discrete=FALSE) +
-  scale_x_continuous(breaks = seq(0,31, by = 1))+
-  scale_y_continuous(breaks = seq(0,23, by = 1))
+  scale_x_continuous(breaks = seq(2020,2024, by = 1))+
+  scale_y_continuous(breaks = seq(4,22, by = 1)) +
+  labs(x = "", "Hora de día")
+
+
+
+
   plot_gg(Heat_map, scale = 250) 
 render_movie(filename = "Heat_map.mp4",
              theta = -45, phi = 30,zoom = 0.5,fov = 130)
