@@ -47,8 +47,4 @@ animate(p, width = 450, height = 450)
 # save as a GIF
 anim_save("output.gif")
 
-# animate
-animate(p, width = 450, height = 450)
 
-# make a gif
-anim_save("COVID_CONSOLIDADO.gif", consolidado)
