@@ -120,7 +120,7 @@ ggtitle("Year: {frame_time}") +
   exit_fade()
 
 # animate
-animate(gap_plot, width = 900, height = 450)
+animate(gap_plot, width = 900, height = 450, fps = 10, duration = 30)
 # save as a GIF
 anim_save("C:\\Users\\JuanCarlosSaraviaDra\\Downloads\\output.gif")
 
