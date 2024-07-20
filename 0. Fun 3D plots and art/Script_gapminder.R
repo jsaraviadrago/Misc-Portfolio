@@ -103,13 +103,14 @@ str(data_complete)
 
 
 #adding extra customization (labels, title) and changing size of bubbles
-gap_plot <- ggplot(data_complete, aes(x = Dif_goles_revisado,
-                                            y = total_points, 
+gap_plot <- ggplot(data_complete, aes(x = total_points,
+                                            y = Dif_goles_revisado, 
                                       color = confederation, size = Total_matches, label = team)) +
-  geom_point(alpha=0.8) + scale_x_log10() + scale_size(range = c(.1, 20), name="Total Matches")+
+  geom_point(alpha=0.8)+
   theme(panel.background = element_blank(), 
         legend.position = "none")+
-  labs(x = 'Diferencia de goles', y = 'Puntos Ranking FIFA',
+  geom_text(hjust=0, vjust=0)+
+  labs(x = 'Puntos Ranking FIFA', y = 'Diferencia de goles',
                 title = "Ranking FIFA segun resultado") +
 # gganimate code
 ggtitle("Year: {frame_time}") +
@@ -119,8 +120,8 @@ ggtitle("Year: {frame_time}") +
   exit_fade()
 
 # animate
-animate(gap_plot, width = 450, height = 450)
+animate(gap_plot, width = 900, height = 450)
 # save as a GIF
-anim_save("output.gif")
+anim_save("C:\\Users\\JuanCarlosSaraviaDra\\Downloads\\output.gif")
 
 
