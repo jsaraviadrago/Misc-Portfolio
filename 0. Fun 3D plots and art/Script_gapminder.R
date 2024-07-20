@@ -67,35 +67,59 @@ data_matches_summary <- data_matches_summary |>
          Dif_goles = Dif_goles_local + Dif_goles_visita)
 
 
+data_matches_summary <- data_matches_summary |> 
+  mutate(Total_partidos_revisado = case_when(
+    is.na(Total_partidos) & is.na(Total_visita_partidos) ~ paste0(Total_local_partidos),
+    is.na(Total_partidos) & is.na(Total_local_partidos) ~ paste0(Total_visita_partidos),
+    !is.na(Total_partidos) ~ paste0(Total_partidos)))
+
+data_matches_summary <- data_matches_summary |> 
+  mutate(Dif_goles_revisado = case_when(
+    is.na(Dif_goles) & is.na(Dif_goles_visita) ~ paste0(Dif_goles_local),
+    is.na(Dif_goles) & is.na(Dif_goles_local) ~ paste0(Dif_goles_visita),
+    !is.na(Dif_goles) ~ paste0(Dif_goles)))
+
+
+# Total partidos
+data_matches_total <- data_matches_summary |> 
+  group_by(home_team) |> 
+  summarise(Total_matches = sum(as.numeric(Total_partidos_revisado)))
+
+data_matches_summary <- left_join(data_matches_summary, data_matches_total,
+                                  by = "home_team")
+
+
+data_matches_summary$Dif_goles_revisado <- as.numeric(data_matches_summary$Dif_goles_revisado)
+
+data_matches_summary <- data_matches_summary |> 
+  select(year, home_team, Dif_goles_revisado, Total_matches)
 
 
 
+data_complete <- dplyr::left_join(data_rankings, data_matches_summary,
+                                  by = c("team"="home_team", "year" = "year"))
 
-
-
-
-
-data_complete <- dplyr::left_join(data_summary_medals, data_dictionary,
-                                  by = c("Country"="Code"))
+str(data_complete)
 
 
 #adding extra customization (labels, title) and changing size of bubbles
-gap_plot <- ggplot(data_complete, aes(x = GDP.per.Capita,
-                                            y = Total, color = Country, size = Population)) +
-  geom_point(alpha=0.8) + scale_x_log10() + scale_size(range = c(.1, 20), name="Population")+
+gap_plot <- ggplot(data_complete, aes(x = Dif_goles_revisado,
+                                            y = total_points, 
+                                      color = confederation, size = Total_matches, label = team)) +
+  geom_point(alpha=0.8) + scale_x_log10() + scale_size(range = c(.1, 20), name="Total Matches")+
   theme(panel.background = element_blank(), 
         legend.position = "none")+
-  labs(x = 'GDP per Capita [in USD]', y = 'Total medallas',
-                title = "Medallas en las olimpiadas y GDP") +
+  labs(x = 'Diferencia de goles', y = 'Puntos Ranking FIFA',
+                title = "Ranking FIFA segun resultado") +
 # gganimate code
 ggtitle("Year: {frame_time}") +
-  transition_time(Year) +
+  transition_time(year) +
   ease_aes("linear") +
   enter_fade() +
   exit_fade()
 
 # animate
-animate(p, width = 450, height = 450)
+animate(gap_plot, width = 450, height = 450)
 # save as a GIF
 anim_save("output.gif")
 
