@@ -1,27 +1,79 @@
 ## Script Gap Minder animado
-
+library(dplyr)
 library(ggplot2)
 library(gganimate)
+library(lubridate)
 #library(gifski)
 #library(png)
 
 # Olympic medals
 
-url_data_dictionary <- "https://raw.githubusercontent.com/jsaraviadrago/Misc-Portfolio/main/0.%20Fun%203D%20plots%20and%20art/dictionary.csv"
-url_data_summer <- "https://raw.githubusercontent.com/jsaraviadrago/Misc-Portfolio/main/0.%20Fun%203D%20plots%20and%20art/summer.csv" 
+url_data_rankings <- "https://raw.githubusercontent.com/jsaraviadrago/Misc-Portfolio/main/fifa_rankings.csv"
+url_data_matches <- "https://raw.githubusercontent.com/jsaraviadrago/Misc-Portfolio/main/results.csv" 
 
 
 
-data_dictionary <- read.csv(url_data_dictionary)
-data_summer <- read.csv(url_data_summer)  
+data_rankings <- read.csv(url_data_rankings)
+data_matches <- read.csv(url_data_matches)  
 
-head(data_dictionary)
-head(data_summer)
+data_rankings <- data_rankings %>% 
+  mutate(
+    date = as.Date(rank_date),
+    year = year(rank_date)) 
 
-data_summary_medals <- data_summer |>
-  dplyr::group_by(Year, Country, Medal) |> 
-  dplyr::summarise(Medal = dplyr::n()) |> 
-  dplyr::summarise(Total_medals = sum(Medal))
+data_summary_rankings <- data_rankings |>
+  dplyr::group_by(year, team) |> 
+  dplyr::summarise(Points = max(total_points),
+                   confederation = first(confederation),
+                   country_abrv = first(country_abrv)) 
+
+data_matches <- data_matches |> 
+  mutate(
+    date = as.Date(date),
+    year = year(date)) 
+
+data_matches <- data_matches |> 
+  filter(year >= 1992)
+
+data_matches_summary_local <- data_matches |> 
+  group_by(year, home_team) |>
+  summarise(Goles_local_favor = sum(home_score),
+            Goles_local_contra = sum(away_score),
+            Total_local_partidos = n())
+
+data_matches_summary_local <- data_matches_summary_local |> 
+  mutate(Dif_goles_local = Goles_local_favor - Goles_local_contra) |> 
+  select(-Goles_local_favor, -Goles_local_contra)
+
+
+data_matches_summary_visita <- data_matches |> 
+  group_by(year, away_team) |>
+  summarise(Goles_visita_favor = sum(away_score),
+            Goles_visita_contra = sum(home_score),
+            Total_visita_partidos = n())
+
+data_matches_summary_visita <- data_matches_summary_visita |> 
+  mutate(Dif_goles_visita = Goles_visita_favor - Goles_visita_contra) |> 
+  select(-Goles_visita_favor, -Goles_visita_contra)
+
+
+
+data_matches_summary <- full_join(data_matches_summary_local, 
+                                   data_matches_summary_visita,
+                                   by =c("year" = "year", "home_team" = "away_team"))
+
+data_matches_summary <- data_matches_summary |> 
+  mutate(Total_partidos = Total_local_partidos + Total_visita_partidos,
+         Dif_goles = Dif_goles_local + Dif_goles_visita)
+
+
+
+
+
+
+
+
+
 
 data_complete <- dplyr::left_join(data_summary_medals, data_dictionary,
                                   by = c("Country"="Code"))
