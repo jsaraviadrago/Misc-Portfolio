@@ -106,7 +106,8 @@ data_complete_filtered <- data_complete |>
 #adding extra customization (labels, title) and changing size of bubbles
 gap_plot <- ggplot(data_complete_filtered, aes(x = total_points,
                                             y = Dif_goles_revisado, 
-                                      color = team, size = Total_matches, group = team)) +
+                                      color = team, size = Total_matches, 
+                                      group = interaction(team, year))) +
   geom_point(alpha=0.8)+
   theme(panel.background = element_blank(), 
         legend.position = "none")+
@@ -121,7 +122,7 @@ ggtitle("Year: {frame_time}") +
   exit_fade()
 
 # animate
-animate(gap_plot, width = 900, height = 450, fps = 30, duration = 30)
+animate(gap_plot, width = 900, height = 450, fps = 10, duration = 30)
 # save as a GIF
 anim_save("C:\\Users\\JuanCarlosSaraviaDra\\Downloads\\output.gif")
 
