@@ -90,9 +90,7 @@ data_matches_summary$Dif_goles_revisado <- as.numeric(data_matches_summary$Dif_g
 data_matches_summary <- data_matches_summary |> 
   select(year, home_team, Dif_goles_revisado, Total_matches)
 
-
-
-data_complete <- dplyr::left_join(data_rankings, data_matches_summary,
+data_complete <- dplyr::left_join(data_summary_rankings, data_matches_summary,
                                   by = c("team"="home_team", "year" = "year"))
 
 world_champions <- c("Ecuador", "Argentina", "Peru", "Uruguay", "Brazil", "Venezuela", "Colombia",
@@ -104,7 +102,7 @@ data_complete_filtered <- data_complete |>
 
 
 #adding extra customization (labels, title) and changing size of bubbles
-gap_plot <- ggplot(data_complete_filtered, aes(x = total_points,
+gap_plot <- ggplot(data_complete_filtered, aes(x = Points,
                                             y = Dif_goles_revisado, 
                                       color = team, size = Total_matches)) +
   geom_point(alpha=0.8)+
