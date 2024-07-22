@@ -110,11 +110,11 @@ data_complete_filtered <- data_complete |>
 #adding extra customization (labels, title) and changing size of bubbles
 gap_plot <- ggplot(data_complete_filtered, aes(x = total_points,
                                             y = Dif_goles_revisado, 
-                                      color = team, size = Total_matches, label = team)) +
+                                      color = team, size = Total_matches)) +
   geom_point(alpha=0.8)+
   theme(panel.background = element_blank(), 
         legend.position = "none")+
-  geom_text(hjust=0, vjust=0)+
+  #geom_text(hjust=0, vjust=0)+
   labs(x = 'Puntos Ranking FIFA', y = 'Diferencia de goles',
                 title = "Ranking FIFA segun resultado") +
 # gganimate code
