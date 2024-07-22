@@ -102,9 +102,10 @@ data_complete <- dplyr::left_join(data_rankings, data_matches_summary,
 table(data_complete$team)
 
 world_champions <- c("Germany", "Argentina", "Peru", "Uruguay", "Italy", "England", "Brazil", "France",
-                     "Spain", "Hungary", "Netherlands", "")
+                     "Spain", "Hungary", "Netherlands")
 
 data_complete_filtered <- data_complete |> 
+  filter(team %in% world_champions)
   
 
 
