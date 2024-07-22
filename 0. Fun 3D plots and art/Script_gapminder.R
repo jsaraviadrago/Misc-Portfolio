@@ -110,7 +110,7 @@ data_complete_filtered <- data_complete |>
 #adding extra customization (labels, title) and changing size of bubbles
 gap_plot <- ggplot(data_complete_filtered, aes(x = total_points,
                                             y = Dif_goles_revisado, 
-                                      color = confederation, size = Total_matches, label = team)) +
+                                      color = team, size = Total_matches, label = team)) +
   geom_point(alpha=0.8)+
   theme(panel.background = element_blank(), 
         legend.position = "none")+
