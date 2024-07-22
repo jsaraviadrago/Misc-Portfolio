@@ -7,10 +7,16 @@ library(lubridate)
 url_data_rankings <- "https://raw.githubusercontent.com/jsaraviadrago/Misc-Portfolio/main/fifa_rankings.csv"
 url_data_matches <- "https://raw.githubusercontent.com/jsaraviadrago/Misc-Portfolio/main/results.csv" 
 
+urL_data_population <- "https://raw.githubusercontent.com/jsaraviadrago/Misc-Portfolio/main/0.%20Fun%203D%20plots%20and%20art/world_population.csv"
 
 
 data_rankings <- read.csv(url_data_rankings)
 data_matches <- read.csv(url_data_matches)  
+data_population <- read.csv(urL_data_population)
+
+data_population_summary <- data_population |> 
+  select(Country.Territory, X2022.Population)
+
 
 data_rankings <- data_rankings %>% 
   mutate(
@@ -93,6 +99,10 @@ data_matches_summary <- data_matches_summary |>
 data_complete <- dplyr::left_join(data_summary_rankings, data_matches_summary,
                                   by = c("team"="home_team", "year" = "year"))
 
+data_complete <- left_join(data_complete, data_population_summary,
+                           by = c("team" = "Country.Territory"))
+
+
 world_champions <- c("Ecuador", "Argentina", "Peru", "Uruguay", "Brazil", "Venezuela", "Colombia",
                      "Paraguay", "Bolivia", "Chile")
 
@@ -104,11 +114,11 @@ data_complete_filtered <- data_complete |>
 #adding extra customization (labels, title) and changing size of bubbles
 gap_plot <- ggplot(data_complete_filtered, aes(x = Points,
                                             y = Dif_goles_revisado, 
-                                      color = team, size = Total_matches)) +
+                                      color = team, size = X2022.Population, label = team)) +
   geom_point(alpha=0.8)+
   theme(panel.background = element_blank(), 
         legend.position = "none")+
-  #geom_text(hjust=0, vjust=0)+
+  geom_text(hjust=0, vjust=0)+
   labs(x = 'Puntos Ranking FIFA', y = 'Diferencia de goles',
                 title = "Ranking FIFA segun resultado") +
 # gganimate code
