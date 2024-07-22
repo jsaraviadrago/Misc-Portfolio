@@ -99,8 +99,6 @@ data_matches_summary <- data_matches_summary |>
 data_complete <- dplyr::left_join(data_rankings, data_matches_summary,
                                   by = c("team"="home_team", "year" = "year"))
 
-table(data_complete$team)
-
 world_champions <- c("Germany", "Argentina", "Peru", "Uruguay", "Italy", "England", "Brazil", "France",
                      "Spain", "Hungary", "Netherlands")
 
