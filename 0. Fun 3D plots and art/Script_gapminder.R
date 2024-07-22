@@ -99,7 +99,12 @@ data_matches_summary <- data_matches_summary |>
 data_complete <- dplyr::left_join(data_rankings, data_matches_summary,
                                   by = c("team"="home_team", "year" = "year"))
 
-str(data_complete)
+table(data_complete$team)
+
+world_champions <- c("Germany", "Argentina", "Peru", "Uruguay", "Italy", "England", "Brazil", )
+
+data_complete_filtered <- data_complete |> 
+  
 
 
 #adding extra customization (labels, title) and changing size of bubbles
