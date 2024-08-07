@@ -77,9 +77,7 @@ MapaPeru <- ggplot(data = fperu_dpto)+
         legend.title = element_blank(), legend.position="none")
 
 # Rendering into a moving plot with rayshader                                        
-# plot_gg(MapaPeru, width = 4, height = 4, scale = 400,
-#         multicore = F) 
-# render_movie(filename = "C:\\Users\\JuanCarlosSaraviaDra\\Downloads\\mapa.mp4",
-#              theta = -45, phi = seq(90,360, by=2),
-#              zoom = 0.5,fov = 130)
+plot_gg(MapaPeru,multicore=TRUE,width=5,height=3,scale=310)    # Plot_gg de rayshader
+render_movie("C:\\Users\\JuanCarlosSaraviaDra\\Downloads\\mapa.mp4",
+             frames = 720, fps=30,zoom=0.6,fov = 30)
 
