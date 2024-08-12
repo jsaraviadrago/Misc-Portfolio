@@ -81,3 +81,8 @@ plot_gg(MapaPeru,multicore=TRUE,width=5,height=3,scale=310)    # Plot_gg de rays
 render_movie("C:\\Users\\JuanCarlosSaraviaDra\\Downloads\\mapa.mp4",
              frames = 720, fps=30,zoom=0.6,fov = 30)
 
+#https://www.espn.com.pe/futbol/peru/nota/_/id/6428784/historial-campeones-campeonato-torneo-peruano-peru
+
+
+
+
